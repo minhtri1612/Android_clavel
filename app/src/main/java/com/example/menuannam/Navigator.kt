@@ -238,7 +238,23 @@ fun AppNavigation(navigation: NavHostController,  flashCardDao: FlashCardDao, ne
                 }
                 LogInScreen(
                     changeMessage = changeMessage,
-                    networkService = networkService
+                    networkService = networkService,
+                    navigateToTokenScreen = { email ->
+                        navigation.navigate(TokenRoute(email)) { launchSingleTop = true }
+                    },
+                    navigateToHome = { navigation.navigate(MainRoute) { launchSingleTop = true } }
+                )
+            }
+            composable<TokenRoute> { backStackEntry ->
+                LaunchedEffect(Unit) {
+                    setShowBack(true)
+                    setTitle("Token Screen")
+                }
+                val args: TokenRoute = backStackEntry.toRoute()
+                TokenScreen(
+                    email = args.email,
+                    changeMessage = changeMessage,
+                    navigateToHome = { navigation.navigate(MainRoute) { launchSingleTop = true } }
                 )
             }
         }

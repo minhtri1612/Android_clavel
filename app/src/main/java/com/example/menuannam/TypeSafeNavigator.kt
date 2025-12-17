@@ -18,6 +18,9 @@ object SearchRoute
 object LogInRoute
 
 @Serializable
+data class TokenRoute(val email: String)
+
+@Serializable
 data class ShowCardRoute(val english: String, val vietnamese: String)
 
 @Serializable
@@ -28,6 +31,9 @@ data class UserCredential(val email: String)
 
 @Serializable
 data class Token(val token: String)
+
+@Serializable
+data class TokenResponse(val code: Int, val message: String)
 
 /*
 Route có argument: id của FlashCard

@@ -1,14 +1,32 @@
 package com.example.menuannam
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.menuannam.ui.theme.MenuAnNamTheme
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
+// The Preferences DataStore implementation uses the DataStore and Preferences classes to persist key-value pairs to disk.
+// Use the property delegate created by preferencesDataStore to create an instance of DataStore<Preferences>.
+// Call it once at the top level of your Kotlin file. Access DataStore through this property
+// throughout the rest of your application. This makes it easier to keep your DataStore as a singleton.
+val Context.dataStore by preferencesDataStore(
+    name = "user_credentials"
+)
+
+// Because Preferences DataStore doesn't use a predefined schema,
+// you must use the corresponding key type function to define a key for each value that you need to store
+// in the DataStore<Preferences> instance.
+// For example, to define a key for an int value, use intPreferencesKey()
+val TOKEN = stringPreferencesKey("token")
+val EMAIL = stringPreferencesKey("email")
 
 
 class MainActivity : ComponentActivity() {
