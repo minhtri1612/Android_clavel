@@ -165,7 +165,8 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.runtime)
-
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.exoplayer)
     testImplementation(libs.junit)
 
     testImplementation(libs.robolectric)

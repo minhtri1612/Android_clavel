@@ -10,8 +10,10 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.menuannam.ui.theme.MenuAnNamTheme
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 // The Preferences DataStore implementation uses the DataStore and Preferences classes to persist key-value pairs to disk.
 // Use the property delegate created by preferencesDataStore to create an instance of DataStore<Preferences>.
@@ -43,11 +45,25 @@ class MainActivity : ComponentActivity() {
                 ).build()
                 val flashCardDao = db.flashCardDao()
 
+                // network
+                // Create a single OkHttpClient instance
+                val sharedOkHttpClient = OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS) // Set connection timeout
+                    .readTimeout(30, TimeUnit.SECONDS)    // Set read timeout
+                    .build()
+
+                // Retrofit requires a valid HttpUrl: The baseUrl() method of Retrofit.Builder expects an okhttp3.HttpUrl object.
+                // This object represents a well-formed URL and requires a scheme (like "http" or "https"),
+                // a host, and optionally a port and path. It cannot be null or an empty string.
+                // You can use a placeholder or dummy URL, such as http://localhost/ or http://example.com/,
+                // during the initial setup. This satisfies Retrofit's requirement for a valid base URL.
                 val retrofit: Retrofit = Retrofit.Builder()
                     .baseUrl("https://placeholder.com")
+                    .client(sharedOkHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
+                // Create an implementation of the API endpoints defined by the service interface.
                 val networkService = retrofit.create(NetworkService::class.java)
 
                 AppNavigation(

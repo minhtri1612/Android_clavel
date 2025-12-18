@@ -35,6 +35,9 @@ data class Token(val token: String)
 @Serializable
 data class TokenResponse(val code: Int, val message: String)
 
+@Serializable
+data class AudioRequest(val word: String, val email: String, val token: String)
+
 /*
 Route có argument: id của FlashCard
 @Serializable
